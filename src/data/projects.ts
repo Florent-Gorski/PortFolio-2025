@@ -55,4 +55,11 @@ export const projects: Project[] = [
     tech: 'React Native, AI API',
     status: 'soon',
   },
+  {
+    name: 'Shop SwissPanda',
+    desc: 'Marketplace généraliste reliant fournisseurs et clients en Suisse.',
+    tech: 'Supabase, Stripe, React, Node',
+    link: 'https://shop-swisspanda.ch',
+    status: 'online',
+  },
 ]
