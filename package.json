@@ -1,26 +1,735 @@
+
 {
   "name": "flo-portfolio",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "build": "tsc --noEmit -p tsconfig.json && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
-    "lucide-react": "^0.453.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "lucide-react": "^0.453.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^5.0.1",
+    "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
+    "jsdom": "^24.1.0",
     "postcss": "^8.4.41",
     "tailwindcss": "^3.4.10",
     "typescript": "^5.5.4",
-    "vite": "^5.4.19"
+    "vite": "^5.4.1",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^2.0.5"
   }
 }
+```gitignore
+# Node modules
+node_modules/
+
+# Build output
+dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+.env.*
+```
+
+---
+
+## .editorconfig
+```ini
+root = true
+
+[*
+]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+```
+
+---
+
+## .gitattributes
+```gitattributes
+* text=auto eol=lf
+```
+
+---
+
+## .nvmrc
+```txt
+20
+```
+
+---
+
+## netlify.toml
+```toml
+[build
+]
+  command = "npm run build"
+  publish = "dist"[build.environment
+]
+  NODE_VERSION = "20.19.5"
+```
+
+
+---
+
+## tsconfig.json
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "types": [
+      "vitest/globals",
+      "node"
+    ]
+  },
+  "include": [
+    "src",
+    "vite.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/test/**"
+  ]
+}
+```
+
+---
+
+## vite.config.ts
+```ts
+import { defineConfig
+} from 'vite'
+import react from '@vitejs/plugin-react'
+import { fileURLToPath, URL
+} from 'node:url'
+import tsconfigPaths from 'vite-tsconfig-paths'
+
+export default defineConfig({
+  plugins: [react(), tsconfigPaths()
+  ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './src/test/setup.ts'
+  }
+})
+```
+
+---
+
+## postcss.config.cjs
+```js
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+```
+
+---
+
+## tailwind.config.cjs
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './index.html',
+    './src /**/*.{ts,tsx
+    }',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#eef2ff',
+          100: '#e0e7ff',
+          200: '#c7d2fe',
+          300: '#a5b4fc',
+          400: '#818cf8',
+          500: '#6366f1',
+          600: '#4f46e5',
+          700: '#4338ca',
+          800: '#3730a3',
+          900: '#312e81',
+        },
+      },
+    },
+  },
+  darkMode: 'class',
+  plugins: [],
+}
+```
+
+---
+
+## index.html
+```html
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio – Flo</title>
+  </head>
+  <body class="min-h-screen bg-white dark:bg-neutral-950">
+    <div id="root"></div>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>
+```
+
+> ⚠️ **Important** : Vite charge maintenant `src/index.tsx`. Si un fichier **`/index.tsx` (à la racine)** existe encore sur ton disque, **supprime‑le** : il peut provoquer l’erreur `Unexpected token (1: 0)` s’il contient un BOM/charactère invisible.
+
+---
+
+## src/index.css
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Typo de base */
+:root { color-scheme: light dark;
+}
+body { @apply text-neutral-800 dark:text-neutral-100;
+}
+.container { @apply max-w-6xl mx-auto px-4;
+}
+.btn { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 font-medium shadow-sm border border-neutral-200/60 dark:border-neutral-800 hover:shadow transition;
+}
+.card { @apply rounded-2xl border border-neutral-200/60 dark:border-neutral-800 bg-white/70 dark:bg-neutral-900/60 shadow-sm backdrop-blur;
+}
+.badge { @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border border-neutral-300/60 dark:border-neutral-700/60;
+}
+```
+
+---
+
+## src/index.tsx
+```tsx
+import React from 'react'
+import { createRoot
+} from 'react-dom/client'
+import App from './App'
+import './index.css'
+
+const container = document.getElementById('root')
+if (!container) throw new Error('Root container not found')
+
+createRoot(container).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)
+```
+
+---
+
+## src/data/projects.ts
+```ts
+export type Project = {
+  name: string
+  desc: string
+  tech: string
+  link?: string
+  status?: 'online' | 'wip' | 'private' | 'soon'
+}
+
+export const projects: Project[] = [
+  {
+    name: 'Piliarium-App',
+    desc: 'Application éducative pour courtiers (3e pilier) avec quiz et graphiques.',
+    tech: 'React, TypeScript, Vite',
+    link: 'https: //piliarium-app.netlify.app/',
+    status: 'online',
+  },
+  {
+    name: 'Limpid-Helvetic',
+    desc: 'Calculateur financier suisse – Netlify + SMTP Zoho.',
+    tech: 'React, TypeScript, Vite, Tailwind',
+    link: 'https: //limpid-helvetic.ch/',
+    status: 'online',
+  },
+  {
+    name: 'ProméThémis',
+    desc: 'Site de conseil financier premium (Suisse), SEO et responsive.',
+    tech: 'Next.js, Tailwind, Netlify / OVH',
+    link: 'https: //promethemis.ch/',
+    status: 'online',
+  },
+  {
+    name: 'Calculateur Financier Suisse 2025',
+    desc: 'Outil de simulation fiscale et financière (documentation incluse).',
+    tech: 'React, TypeScript',
+    link: 'https: //calculateur-financier-suisse-2025.netlify.app/',
+    status: 'online',
+  },
+  {
+    name: 'La Perle de Velours',
+    desc: 'Concept créatif haut de gamme, création visuelle et identité.',
+    tech: 'Branding, UI/UX, Web',
+    link: 'https: //la-perle-de-velours.netlify.app/',
+    status: 'online',
+  },
+  {
+    name: 'Songlish',
+    desc: 'Apprentissage de l’anglais par la musique, pipeline IA semi‑autonome.',
+    tech: 'React, GPT‑4o, Vercel',
+    status: 'soon',
+  },
+  {
+    name: 'AlphaVital',
+    desc: 'Coaching santé & performance personnelle (mobile‑first).',
+    tech: 'React Native, AI API',
+    status: 'soon',
+  },
+]
+```
+
+---
+
+## src/components/Badge.tsx
+```tsx
+import { ReactNode
+} from 'react'
+
+export default function Badge({ children
+}: { children: ReactNode
+}) {
+  return <span className="badge bg-white/80 dark:bg-neutral-900/60">{children
+  }</span>
+}
+```
+
+---
+
+## src/components/ProjectCard.tsx
+```tsx
+import { ExternalLink, Rocket, Wrench
+} from 'lucide-react'
+import Badge from './Badge'
+import type { Project
+} from '@/data/projects'
+
+export default function ProjectCard({ p
+}: { p: Project
+}) {
+  return (
+    <article className="card p-5 h-full flex flex-col">
+      <div className="flex items-center justify-between gap-4">
+        <h3 className="text-xl font-semibold tracking-tight">{p.name
+  }</h3>
+        {p.status === 'online' && <Badge><Rocket className="size-3 mr-1"/>En ligne</Badge>
+  }
+        {p.status === 'soon' && <Badge><Wrench className="size-3 mr-1"/>Bientôt</Badge>
+  }
+      </div>
+      <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-300">{p.desc
+  }</p>
+      <p className="mt-3 text-xs text-neutral-500">Tech : {p.tech
+  }</p>
+      <div className="mt-4 pt-3 border-t border-neutral-200/60 dark:border-neutral-800 flex-1">
+        {p.link ? (
+          <a
+            href={p.link
+    }
+            target="_blank"
+            rel="noreferrer noopener"
+            className="btn"
+          >
+            <ExternalLink className="size-4" /> Voir le projet
+          </a>
+        ) : (
+          <span className="text-sm text-neutral-500">Lien à venir</span>
+        )
+  }
+      </div>
+    </article>
+  )
+}
+```
+
+---
+
+## src/components/Hero.tsx
+```tsx
+import { Github, Linkedin, Mail, Sparkles
+} from 'lucide-react'
+
+export default function Hero() {
+  return (
+    <header className="border-b border-neutral-200/60 dark:border-neutral-800 bg-gradient-to-b from-white/60 to-transparent dark:from-neutral-950/60">
+      <div className="container py-14">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 text-xs px-2.5 py-1 rounded-full border border-neutral-200/60 dark:border-neutral-800">
+              <Sparkles className="size-3"/>
+              <span>Entrepreneur & créateur web/mobile</span>
+            </div>
+            <h1 className="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight">
+              Flo — Portfolio professionnel
+            </h1>
+            <p className="mt-3 text-neutral-600 dark:text-neutral-300 max-w-2xl">
+              Je conçois des produits digitaux souverains, performants et élégants : IA, éducation, finance, et outils web.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <a href="#projets" className="btn">Voir mes projets</a>
+              <a href="#contact" className="btn">Me contacter</a>
+            </div>
+          </div>
+          <nav className="flex items-center gap-3">
+            <a className="btn" href="https://github.com/" target="_blank" rel="noreferrer noopener"><Github className="size-4"/>GitHub</a>
+            <a className="btn" href="https://www.linkedin.com/" target="_blank" rel="noreferrer noopener"><Linkedin className="size-4"/>LinkedIn</a>
+            <a className="btn" href="#contact"><Mail className="size-4"/>Email</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+  )
+}
+```
+
+---
+
+## src/components/About.tsx
+```tsx
+export default function About() {
+  return (
+    <section id="a-propos" className="container py-12">
+      <h2 className="text-2xl md:text-3xl font-bold">À propos</h2>
+      <p className="mt-3 max-w-3xl text-neutral-700 dark:text-neutral-300">
+        Développeur full‑stack orienté produits, j’opère à l’intersection de l’IA, de l’éducation et de la finance.
+        Mon approche : exactitude, simplicité, élégance. Je privilégie les architectures sobres et souveraines,
+        avec des intégrations CI/CD, sécurité by‑design et documentation systématique.
+      </p>
+    </section>
+  )
+}
+```
+
+---
+
+## src/components/Projects.tsx
+```tsx
+import { projects
+} from '@/data/projects'
+import ProjectCard from './ProjectCard'
+
+export default function Projects() {
+  return (
+    <section id="projets" className="container py-12">
+      <div className="flex items-end justify-between gap-4">
+        <h2 className="text-2xl md:text-3xl font-bold">Projets</h2>
+        <p className="text-sm text-neutral-500">{projects.length
+  } projets</p>
+      </div>
+      <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((p) => (
+          <ProjectCard key={p.name
+    } p={p
+    } />
+        ))
+  }
+      </div>
+    </section>
+  )
+}
+```
+
+---
+
+## src/components/Contact.tsx
+```tsx
+export default function Contact() {
+  return (
+    <section id="contact" className="container py-12">
+      <h2 className="text-2xl md:text-3xl font-bold">Contact</h2>
+      <p className="mt-3 text-neutral-700 dark:text-neutral-300">Envoyez‑moi un email à <a className="underline" href="mailto:contact@votredomaine.ch">contact@votredomaine.ch</a> ou via LinkedIn.</p>
+      <p className="mt-1 text-sm text-neutral-500">(Formulaire Netlify ou solution SMTP Zoho ajoutables plus tard.)</p>
+    </section>
+  )
+}
+```
+
+---
+
+## src/App.tsx
+```tsx
+import Hero from '@/components/Hero'
+import Projects from '@/components/Projects'
+import About from '@/components/About'
+import Contact from '@/components/Contact'
+
+export default function App() {
+  return (
+    <div className="min-h-screen">
+      <Hero />
+      <main>
+        <Projects />
+        <About />
+        <Contact />
+      </main>
+      <footer className="border-t border-neutral-200/60 dark:border-neutral-800">
+        <div className="container py-6 text-sm text-neutral-500">© {new Date().getFullYear()
+  } Flo — Tous droits réservés.</div>
+      </footer>
+    </div>
+  )
+}
+```
+
+---
+
+## Tests (Vitest)
+
+### src/test/setup.ts
+```ts
+import '@testing-library/jest-dom/vitest'
+```
+
+### src/test/app.spec.tsx
+```tsx
+import { render, screen
+} from '@testing-library/react'
+import App from '@/App'
+
+describe('App', () => {
+  it('affiche le titre du portfolio', () => {
+    render(<App />)
+    expect(screen.getByText(/Portfolio professionnel/i)).toBeInTheDocument()
+  })
+
+  it('affiche la section Projets', () => {
+    render(<App />)
+    expect(screen.getByRole('heading',
+    { name: /Projets/i
+    })).toBeInTheDocument()
+  })
+})
+```
+
+### src/test/alias.spec.tsx
+```tsx
+import { render, screen
+} from '@testing-library/react'
+import Hero from '@/components/Hero'
+
+describe('Alias @ fonctionne', () => {
+  it('rend le composant Hero', () => {
+    render(<Hero />)
+    expect(screen.getByText(/Portfolio professionnel/i)).toBeInTheDocument()
+  })
+})
+```
+
+### src/test/projects.spec.ts
+```ts
+import { projects
+} from '@/data/projects'
+
+describe('Liste des projets', () => {
+  it('contient au moins 5 projets en ligne avec un lien', () => {
+    const online = projects.filter(p => p.status === 'online' && !!p.link)
+    expect(online.length).toBeGreaterThanOrEqual(5)
+  })
+
+  it('inclut Piliarium-App, Limpid-Helvetic et ProméThémis', () => {
+    const names = projects.map(p => p.name)
+    expect(names).toEqual(expect.arrayContaining(['Piliarium-App', 'Limpid-Helvetic', 'ProméThémis'
+    ]))
+  })
+})
+```
+
+---
+
+## README.md (extrait)
+```md
+# Flo – Portfolio
+
+## Démarrer
+```bash
+npm install
+npm run dev
+```
+
+## Tests
+```bash
+npm run test     # exécution CI
+npm run test:watch
+```
+
+## Build & déploiement (Netlify)
+```bash
+npm run build
+# via Netlify CLI (optionnel)
+# netlify deploy --dir=dist --prod
+```
+
+## CI/CD – GitHub Actions
+Deux workflows sont fournis (désactive celui que tu n’utilises pas) :
+- `.github/workflows/netlify.yml` → déploiement Netlify (requiert `NETLIFY_AUTH_TOKEN` et `NETLIFY_SITE_ID`).
+- `.github/workflows/vercel.yml` → déploiement Vercel (requiert `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`).
+
+## Notes encodage / erreurs courantes
+- Sauvegarder les fichiers en **UTF‑8 sans BOM**.
+- Supprimer tout ancien **`/index.tsx`** à la racine : il peut contenir un caractère invisible et causer `Unexpected token (1: 0)`.
+- L’entrée officielle est **`/src/index.tsx`** (référencée par `index.html`).
+
+## Personnalisation
+- Éditer `src/data/projects.ts` pour ajouter / modifier les projets et liens.
+- Mettre votre adresse email dans `src/components/Contact.tsx`.
+- Remplacer les liens GitHub/LinkedIn dans `src/components/Hero.tsx`.
+```
+
+---
+
+## .github/workflows/netlify.yml
+```yaml
+name: Deploy to Netlify
+
+on:
+  push:
+    branches: [ main
+]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Netlify
+        uses: netlify/actions/cli@v4
+        with:
+          args: deploy --dir=dist --prod
+        env:
+          NETLIFY_AUTH_TOKEN: ${
+  { secrets.NETLIFY_AUTH_TOKEN
+  }
+}
+          NETLIFY_SITE_ID: ${
+  { secrets.NETLIFY_SITE_ID
+  }
+}
+```
+
+---
+
+## .github/workflows/vercel.yml
+```yaml
+name: Deploy to Vercel
+
+on:
+  push:
+    branches: [ main
+]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${
+  { secrets.VERCEL_TOKEN
+  }
+}
+          vercel-org-id: ${
+  { secrets.VERCEL_ORG_ID
+  }
+}
+          vercel-project-id: ${
+  { secrets.VERCEL_PROJECT_ID
+  }
+}
+          working-directory: ./
+          prod: true
+```
