@@ -1,7 +1,6 @@
 import { Github, Linkedin, Mail, Sparkles } from 'lucide-react'
 
-export default function Hero()
-{
+export default function Hero() {
   return (
     <header className="flo-header">
       <div className="container flo-header__inner">
@@ -20,7 +19,7 @@ export default function Hero()
           </nav>
         </div>
 
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-6">
           {/* Liens sociaux */}
           <nav className="flo-social">
             <a className="btn" href="https://github.com/" target="_blank" rel="noreferrer noopener">
@@ -34,13 +33,14 @@ export default function Hero()
             </a>
           </nav>
 
-          {/* Avatar avec glow */}
-          <div className="flo-avatar-wrap">
+          {/* Avatar avec glow néon accentué */}
+          <div className="flo-avatar-wrap relative">
             <img
               src="/portrait.jpeg"
               alt="Photo de Florent Gorski"
-              className="flo-avatar"
+              className="flo-avatar ring-4 ring-[#39FF14]/60 shadow-[0_0_40px_#E000FF,0_0_60px_#39FF14]"
             />
+            <span className="absolute -inset-2 rounded-full blur-2xl opacity-60 bg-gradient-to-r from-[#39FF14] to-[#E000FF] animate-pulse" aria-hidden="true"></span>
           </div>
         </div>
       </div>

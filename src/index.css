@@ -231,19 +231,19 @@ body {
   background: #222;
 }
 
-/* Avatar simple glow (pas de “glitch”), facile à remplacer */
+/* Avatar néon amélioré */
 .flo-avatar-wrap {
   position: relative;
-  display: none;
+  display: block;
 }
 
 .flo-avatar {
-  width: 64px;
-  height: 64px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, .18);
-  box-shadow: 0 0 22px rgba(224, 0, 255, .28), 0 0 18px rgba(57, 255, 20, .22) inset;
+  z-index: 10;
+  position: relative;
 }
 
 @media (min-width:768px) {
