@@ -1,6 +1,5 @@
 import { Github, Linkedin, Mail, Sparkles } from 'lucide-react'
 
-
 export default function Hero()
 {
   return (
@@ -24,9 +23,15 @@ export default function Hero()
             </div>
           </div>
           <nav className="flex items-center gap-3">
-            <a className="btn" href="https://github.com/" target="_blank" rel="noreferrer noopener"><Github className="size-4" />GitHub</a>
-            <a className="btn" href="https://www.linkedin.com/" target="_blank" rel="noreferrer noopener"><Linkedin className="size-4" />LinkedIn</a>
-            <a className="btn" href="#contact"><Mail className="size-4" />Email</a>
+            <a className="btn" href="https://github.com/" target="_blank" rel="noreferrer noopener">
+              <Github className="size-4" /> GitHub
+            </a>
+            <a className="btn" href="https://www.linkedin.com/" target="_blank" rel="noreferrer noopener">
+              <Linkedin className="size-4" /> LinkedIn
+            </a>
+            <a className="btn" href="#contact">
+              <Mail className="size-4" /> Email
+            </a>
           </nav>
         </div>
       </div>
