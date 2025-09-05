@@ -1,6 +1,20 @@
 import { ReactNode } from 'react'
 
-export default function Badge({ children }: { children: ReactNode })
+type Variant = 'online' | 'soon' | 'default'
+
+export default function Badge({
+  children,
+  variant = 'default',
+}: {
+  children: ReactNode
+  variant?: Variant
+})
 {
-  return <span className="badge bg-white/80 dark:bg-neutral-900/60">{children}</span>
+  const cls =
+    variant === 'online'
+      ? 'badge badge--online'
+      : variant === 'soon'
+        ? 'badge badge--soon'
+        : 'badge'
+  return <span className={cls}>{children}</span>
 }
