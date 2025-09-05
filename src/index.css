@@ -1,29 +1,371 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* src/index.css */
+/* Tailwind layers */
+/* If you are not using Tailwind via PostCSS or a build tool, remove these lines. Otherwise, ensure your build tool is configured to process Tailwind CSS. */
 
+/* ===== Base resets & typography ===== */
+@layer base {
+  :root {
+    --ring: 0 0% 0%;
+    /* focus ring base (HSL) */
+  }
 
-/* Typo de base */
-:root {
-  color-scheme: light dark;
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: #f9fafb; /* bg-gray-50 */
+    color: #1a202c; /* text-gray-900 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Dark scheme default colors (if 'dark' class est set sur <html>) */
+  .dark body {
+    background-color: #0a0a23; /* bg-gray-950 */
+    color: #f3f4f6; /* text-gray-100 */
+  }
+
+  /* Headings rhythm */
+  h1,
+  h2,
+  h3 {
+        font-weight: 700; /* font-bold */
+        letter-spacing: -0.015em; /* tracking-tight */
+        color: #1a202c; /* text-gray-900 */
+    }
+    .dark h1,
+    .dark h2,
+    .dark h3 {
+        color: #fff; /* dark:text-white */
+  }
+
+  h1 {
+    font-size: 1.875rem; /* text-3xl */
+    line-height: 2.25rem;
+  }
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 3rem; /* md:text-5xl */
+      line-height: 1;
+    }
+  }
+
+  h2 {
+    font-size: 1.5rem; /* text-2xl */
+    line-height: 2rem;
+  }
+  @media (min-width: 768px) {
+    h2 {
+      font-size: 2.25rem; /* md:text-4xl */
+      line-height: 2.5rem;
+    }
+  }
+
+  h3 {
+        font-size: 1.25rem; /* text-xl */
+        line-height: 1.75rem;
+    }
+    @media (min-width: 768px) {
+      h3 {
+        font-size: 1.5rem; /* md:text-2xl */
+        line-height: 2rem;
+      }
+  }
+
+  /* Links */
+  a {
+    text-underline-offset: 2px;
+    text-decoration-color: transparent;
+    transition-property: color;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* Images */
+  img {
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* Focus visible ring */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.12), 0 0 0 6px hsl(221 83% 53% / 0.25);
+    border-radius: 0.5rem;
+  }
 }
 
-body {
-  @apply text-neutral-800 dark:text-neutral-100;
+/* ===== Components (reusable utilities) ===== */
+@layer components {
+
+  /* Container helper */
+  .page {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 72rem; /* max-w-6xl */
+    padding-left: 1rem; /* px-4 */
+    padding-right: 1rem; /* px-4 */
+  }
+  @media (min-width: 640px) {
+    .page {
+      padding-left: 1.5rem; /* sm:px-6 */
+      padding-right: 1.5rem; /* sm:px-6 */
+    }
+  }
+  @media (min-width: 1024px) {
+    .page {
+      padding-left: 2rem; /* lg:px-8 */
+      padding-right: 2rem; /* lg:px-8 */
+    }
+  }
+
+  /* Buttons */
+  .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.5rem; /* rounded-lg */
+        padding: 0.5rem 1rem; /* px-4 py-2 */
+        font-weight: 500; /* font-medium */
+        transition: box-shadow 0.2s, background-color 0.2s, color 0.2s, transform 0.2s;
+        outline: none; /* focus-visible:outline-none */
+        opacity: 1;
+        pointer-events: auto;
+    }
+  .btn:disabled,
+  .btn[disabled] {
+      opacity: 0.5;
+      pointer-events: none;
+  }
+
+  .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem; /* rounded-lg */
+      padding: 0.5rem 1rem; /* px-4 py-2 */
+      font-weight: 500; /* font-medium */
+      transition: box-shadow 0.2s, background-color 0.2s, color 0.2s, transform 0.2s;
+      background-color: #4f46e5; /* bg-indigo-600 */
+      color: #fff; /* text-white */
+      box-shadow: 0 1px 2px 0 rgba(79,70,229,0.05), 0 1.5px 3px 0 rgba(79,70,229,0.10); /* shadow */
+      will-change: transform;
+    }
+    .btn-primary:hover {
+      background-color: #4338ca; /* bg-indigo-700 */
+      box-shadow: 0 4px 6px -1px rgba(79,70,229,0.15), 0 2px 4px -2px rgba(79,70,229,0.15); /* shadow-lg */
+      transform: translateY(-2px); /* -translate-y-0.5 */
+    }
+
+  .btn-secondary {
+        /* @apply btn bg-emerald-500 text-white shadow hover:bg-emerald-600 hover:shadow-lg transform-gpu hover:-translate-y-0.5; */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.5rem; /* rounded-lg */
+        padding: 0.5rem 1rem; /* px-4 py-2 */
+        font-weight: 500; /* font-medium */
+        transition: box-shadow 0.2s, background-color 0.2s, color 0.2s, transform 0.2s;
+        background-color: #10b981; /* bg-emerald-500 */
+        color: #fff; /* text-white */
+        box-shadow: 0 1px 2px 0 rgba(16,185,129,0.05), 0 1.5px 3px 0 rgba(16,185,129,0.10); /* shadow */
+        will-change: transform;
+    }
+    .btn-secondary:hover {
+        background-color: #059669; /* bg-emerald-600 */
+        box-shadow: 0 4px 6px -1px rgba(16,185,129,0.15), 0 2px 4px -2px rgba(16,185,129,0.15); /* shadow-lg */
+        transform: translateY(-2px); /* -translate-y-0.5 */
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem; /* rounded-lg */
+    padding: 0.5rem 1rem; /* px-4 py-2 */
+    font-weight: 500; /* font-medium */
+    transition: background-color 0.2s, color 0.2s;
+    background-color: transparent;
+    color: #1f2937; /* text-gray-800 */
+  }
+  .btn-ghost:hover {
+    background-color: #f3f4f6; /* bg-gray-100 */
+  }
+  .dark .btn-ghost {
+    color: #f3f4f6; /* text-gray-100 */
+  }
+  .dark .btn-ghost:hover {
+    background-color: #1f2937; /* bg-gray-800 */
+  }
+
+  /* Cards */
+  .card {
+        border-radius: 1rem; /* rounded-2xl */
+        background-color: #fff; /* bg-white */
+        padding: 1.5rem; /* p-6 */
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1); /* shadow-md */
+        transition: box-shadow 0.2s, transform 0.2s;
+        will-change: transform;
+    }
+    .card:hover {
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1); /* shadow-xl */
+        transform: translateY(-0.25rem); /* -translate-y-1 */
+    }
+    .dark .card {
+        background-color: #111827; /* bg-gray-900 */
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -2px rgba(0,0,0,0.3); /* shadow-black/30 */
+  }
+
+  .card-header {
+    margin-bottom: 1rem; /* mb-4 */
+    display: flex; /* flex */
+    align-items: flex-start; /* items-start */
+    justify-content: space-between; /* justify-between */
+    gap: 0.75rem; /* gap-3 */
+  }
+
+  .card-title {
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 600;     /* font-semibold */
+    line-height: 1.375;   /* leading-snug */
+  }
+
+  .card-subtitle {
+        font-size: 0.875rem; /* text-sm */
+        color: #6b7280; /* text-gray-500 */
+    }
+    .card-subtitle.dark {
+        color: #9ca3af; /* text-gray-400 */
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border-radius: 9999px;
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .badge-online {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        border-radius: 9999px;
+        padding-left: 0.625rem;
+        padding-right: 0.625rem;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background-color: #dcfce7; /* green-100 */
+        color: #15803d; /* green-700 */
+    }
+    .dark .badge-online {
+        background-color: rgba(20, 83, 45, 0.4); /* green-900/40 */
+        color: #86efac; /* green-300 */
+  }
+
+  .badge-soon {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        border-radius: 9999px;
+        padding-left: 0.625rem;
+        padding-right: 0.625rem;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background-color: #fef9c3; /* yellow-100 */
+        color: #a16207; /* yellow-700 */
+    }
+    .dark .badge-soon {
+        background-color: rgba(113, 63, 18, 0.4); /* yellow-900/40 */
+        color: #fde68a; /* yellow-300 */
+  }
+
+  /* Links styled like buttons */
+  .link {
+    font-weight: 500;
+    color: #4f46e5; /* indigo-600 */
+  }
+  .link:hover {
+    color: #4338ca; /* indigo-700 */
+  }
+  .dark .link {
+    color: #818cf8; /* indigo-400 */
+  }
+  .dark .link:hover {
+    color: #a5b4fc; /* indigo-300 */
+  }
+
+  /* Section spacing */
+  .section {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+
+    @media (min-width: 640px) {
+      .section {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .section {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+      }
+  }
 }
 
-.container {
-  @apply max-w-6xl mx-auto px-4;
-}
+/* ===== Utilities (project-specific) ===== */
+@layer utilities {
 
-.btn {
-  @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 font-medium shadow-sm border border-neutral-200/60 dark:border-neutral-800 hover:shadow transition;
-}
+  /* Fade / slide-in (optionnel pour micro-animations) */
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
 
-.card {
-  @apply rounded-2xl border border-neutral-200/60 dark:border-neutral-800 bg-white/70 dark:bg-neutral-900/60 shadow-sm backdrop-blur;
-}
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-.badge {
-  @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border border-neutral-300/60 dark:border-neutral-700/60;
+  .animate-fade-in-up {
+    animation: fade-in-up 0.4s ease-out both;
+  }
+
+  /* Text balance for nicer headlines (Chrome/Safari) */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Clamp for multi-line truncation */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
