@@ -20,7 +20,8 @@ export default function Hero()
           </nav>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-5">
+          {/* Liens sociaux */}
           <nav className="flo-social">
             <a className="btn" href="https://github.com/" target="_blank" rel="noreferrer noopener">
               <Github className="size-4" /> GitHub
@@ -33,9 +34,13 @@ export default function Hero()
             </a>
           </nav>
 
-          {/* Avatar optionnel (aucun "glitch", simple glow) */}
-          <div className="flo-avatar-wrap" aria-hidden="true">
-            <img className="flo-avatar" src="https://picsum.photos/240" alt="Photo de profil" />
+          {/* Avatar avec glow */}
+          <div className="flo-avatar-wrap">
+            <img
+              src="/portrait.jpeg"
+              alt="Photo de Florent Gorski"
+              className="flo-avatar"
+            />
           </div>
         </div>
       </div>
