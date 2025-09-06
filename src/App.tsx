@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Hero from "./components/Hero";
 import About from "./components/About";
-import Projects from "./components/Projects"; // ✅ source officielle
+import Projects from "./components/Projects";
 import Skills from "./components/skills";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -23,11 +23,12 @@ const App: React.FC = () =>
     localStorage.setItem("theme", isDark ? "dark" : "light");
   }, [isDark]);
 
-  // Active link on scroll
   useEffect(() =>
   {
     const sections = document.querySelectorAll<HTMLElement>("section[id]");
-    const navLinks = document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"]');
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>(
+      'nav a[href^="#"]'
+    );
     const handler = () =>
     {
       let current = "";
@@ -39,7 +40,8 @@ const App: React.FC = () =>
       navLinks.forEach((link) =>
       {
         link.classList.remove("text-blue-600");
-        if (link.getAttribute("href") === `#${current}`) link.classList.add("text-blue-600");
+        if (link.getAttribute("href") === `#${current}`)
+          link.classList.add("text-blue-600");
       });
     };
     window.addEventListener("scroll", handler);
@@ -52,7 +54,19 @@ const App: React.FC = () =>
       <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 shadow-sm dark:bg-gray-900/90 transition-colors">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold text-gray-800 dark:text-white">FG</div>
+            {/* ✅ Logo FG gothique + nom */}
+            <div className="flex items-center gap-3">
+              <img
+                src="/images/logo-header.png"
+                alt="Logo Gorski-Florent"
+                className="w-8 h-8 object-contain"
+              />
+              <span className="text-xl font-bold text-gray-800 dark:text-white">
+                Gorski-Florent
+              </span>
+            </div>
+
+            {/* Navigation */}
             <div className="hidden md:flex space-x-8 items-center">
               <a href="#home" className="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">Accueil</a>
               <a href="#about" className="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">À propos</a>
@@ -74,7 +88,7 @@ const App: React.FC = () =>
       <main className="pt-20">
         <Hero />
         <About />
-        <Projects /> {/* ✅ la bonne section */}
+        <Projects />
         <Skills />
         <Contact />
       </main>
