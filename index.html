@@ -1,21 +1,465 @@
-<!doctype html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio – Flo</title>
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+<script>
+  window.tailwind = { config: { darkMode: 'class' } };
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+  <title>Florent Gorski – Développeur Web</title>
+  <meta name="description"
+    content="Portfolio de Florent Gorski, développeur web full-stack basé en Suisse. Projets modernes avec React, TypeScript, Tailwind, Netlify & Supabase." />
 
-  <!-- Fonts + Icons (optionnel mais recommandé) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .skill-bar {
+      transition: width 2s ease-in-out;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
 
-<body class="min-h-screen bg-[#0f0f10] text-gray-100">
-  <div id="root"></div>
-  <script type="module" src="/src/index.tsx"></script>
-</body>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors">
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 shadow-sm dark:bg-gray-900/90 transition-colors">
+    <div class="max-w-6xl mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <div class="text-2xl font-bold text-gray-800 dark:text-white">FG</div>
 
-</html>
+        <div class="hidden md:flex space-x-8 items-center">
+          <a href="#home"
+            class="text-gray-600 hover:text-blue-600 transition-colors dark:text-gray-300 dark:hover:text-blue-400">Accueil</a>
+          <a href="#about"
+            class="text-gray-600 hover:text-blue-600 transition-colors dark:text-gray-300 dark:hover:text-blue-400">À
+            propos</a>
+          <a href="#projects"
+            class="text-gray-600 hover:text-blue-600 transition-colors dark:text-gray-300 dark:hover:text-blue-400">Projets</a>
+          <a href="#skills"
+            class="text-gray-600 hover:text-blue-600 transition-colors dark:text-gray-300 dark:hover:text-blue-400">Compétences</a>
+          <a href="#contact"
+            class="text-gray-600 hover:text-blue-600 transition-colors dark:text-gray-300 dark:hover:text-blue-400">Contact</a>
+
+          <button id="theme-toggle"
+            class="ml-4 p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors">
+            <span id="theme-icon">🌙</span>
+          </button>
+        </div>
+
+        <button id="mobile-menu" class="md:hidden text-gray-600">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Section Héros -->
+  <section id="home" class="gradient-bg min-h-screen flex items-center justify-center text-white">
+    <div class="text-center px-6 pt-24">
+      <div class="w-32 h-32 mx-auto mb-8 rounded-full ring-4 ring-white/30 overflow-hidden bg-white/10">
+        <img src="./public/portrait-hero.png" alt="Florent Gorski" class="w-full h-full object-cover" />
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 fade-in">Florent Gorski</h1>
+      <p class="text-xl md:text-2xl mb-8 text-white/90 fade-in">Développeur web full-stack</p>
+      <p class="text-lg mb-12 max-w-2xl mx-auto text-white/80 fade-in">
+        J’aime créer des expériences modernes, rapides et élégantes. React, TypeScript, Tailwind, Netlify & Supabase.
+      </p>
+
+      <div class="space-x-4 fade-in">
+        <a href="#projects"
+          class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+          Voir mes projets
+        </a>
+        <a href="#contact"
+          class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+          Me contacter
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section À propos -->
+  <section id="about" class="py-20 bg-white dark:bg-gray-800 transition-colors">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="fade-in">
+          <h2 class="text-4xl font-bold text-gray-800 dark:text-white mb-6">À propos</h2>
+          <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+            Développeur web basé en Suisse, je conçois des interfaces sobres et performantes, avec une attention
+            particulière à l’accessibilité, au SEO et aux parcours utilisateurs.
+          </p>
+          <p class="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+            Stack cœur : React + TypeScript + Vite + Tailwind • Backend léger avec Netlify Functions / Supabase •
+            Automatisation CI/CD & bonnes pratiques Git.
+          </p>
+
+          <div class="flex space-x-4">
+            <a href="https://promethemis.ch" target="_blank" rel="noopener"
+              class="text-blue-600 hover:text-blue-800 transition-colors">ProméThémis</a>
+            <a href="https://limpid-helvetic.ch" target="_blank" rel="noopener"
+              class="text-blue-600 hover:text-blue-800 transition-colors">Limpid-Helvetic</a>
+            <a href="https://github.com/Florent-Gorski" target="_blank" rel="noopener"
+              class="text-blue-600 hover:text-blue-800 transition-colors">GitHub</a>
+          </div>
+        </div>
+
+        <div class="fade-in">
+          <div class="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-700 dark:to-gray-600 p-8 rounded-2xl">
+            <div class="flex items-center space-x-6">
+              <img src="./public/portrait-about.png" alt="Florent Gorski portrait"
+                class="w-24 h-24 rounded-xl object-cover ring-2 ring-white/50">
+              <div>
+                <h3 class="text-2xl font-semibold text-gray-800 dark:text-white">En bref</h3>
+                <p class="text-gray-600 dark:text-gray-300">Lausanne, Suisse • Remote / Présentiel</p>
+              </div>
+            </div>
+
+            <div class="space-y-4 mt-6">
+              <div class="flex items-center"><span class="text-2xl mr-3">🎓</span><span
+                  class="text-gray-600 dark:text-gray-300">Autodidacte + cursus IT</span></div>
+              <div class="flex items-center"><span class="text-2xl mr-3">💼</span><span
+                  class="text-gray-600 dark:text-gray-300">Projets web & apps multi-domaines</span></div>
+              <div class="flex items-center"><span class="text-2xl mr-3">🚀</span><span
+                  class="text-gray-600 dark:text-gray-300">Optimisation perfs & DX</span></div>
+              <div class="flex items-center"><span class="text-2xl mr-3">☕</span><span
+                  class="text-gray-600 dark:text-gray-300">Café + refactor heureux</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Projets -->
+  <section id="projects" class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl font-bold text-gray-800 dark:text-white mb-4">Projets en vedette</h2>
+        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Quelques projets récents.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Projet 1 -->
+        <div
+          class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg card-hover fade-in transition-colors">
+          <div class="h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center"><span
+              class="text-6xl">🛍️</span></div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">ProméThémis – simulateurs CH</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Calculs retraite, 3e pilier, hypothèque, avec UX claire.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">React</span>
+              <span class="px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm">TypeScript</span>
+              <span class="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm">Netlify</span>
+            </div>
+            <div class="flex space-x-4">
+              <a href="https://promethemis.ch" target="_blank"
+                class="text-blue-600 hover:text-blue-800 font-medium">Démo</a>
+              <a href="https://github.com/Florent-Gorski" target="_blank"
+                class="text-gray-600 hover:text-gray-800 font-medium">GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projet 2 -->
+        <div
+          class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg card-hover fade-in transition-colors">
+          <div class="h-48 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center"><span
+              class="text-6xl">💎</span></div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Limpid-Helvetic – site beauté</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Site vitrine + prise de contact, design pastel.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Vite</span>
+              <span class="px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full text-sm">Tailwind</span>
+              <span class="px-3 py-1 bg-red-100 text-red-600 rounded-full text-sm">Netlify</span>
+            </div>
+            <div class="flex space-x-4">
+              <a href="https://limpid-helvetic.ch" target="_blank"
+                class="text-blue-600 hover:text-blue-800 font-medium">Démo</a>
+              <a href="https://github.com/Florent-Gorski" target="_blank"
+                class="text-gray-600 hover:text-gray-800 font-medium">GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projet 3 -->
+        <div
+          class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg card-hover fade-in transition-colors">
+          <div class="h-48 bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center"><span
+              class="text-6xl">🤖</span></div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">SuperLucIA – orchestrations IA</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Pipeline agents + déploiements rapides.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">TypeScript</span>
+              <span class="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-sm">Functions</span>
+              <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Supabase</span>
+            </div>
+            <div class="flex space-x-4">
+              <a href="https://superlucia.ovh" target="_blank"
+                class="text-blue-600 hover:text-blue-800 font-medium">Démo</a>
+              <a href="https://github.com/Florent-Gorski" target="_blank"
+                class="text-gray-600 hover:text-gray-800 font-medium">GitHub</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Compétences -->
+  <section id="skills" class="py-20 bg-white dark:bg-gray-800 transition-colors">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl font-bold text-gray-800 dark:text-white mb-4">Compétences & technologies</h2>
+        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Un aperçu synthétique.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12">
+        <div class="fade-in">
+          <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">Frontend</h3>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between mb-2"><span class="text-gray-700 dark:text-gray-300">React /
+                  Next.js</span><span class="text-gray-500 dark:text-gray-400">90%</span></div>
+              <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                <div class="skill-bar bg-blue-600 h-2 rounded-full" style="width:0%" data-width="90%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2"><span class="text-gray-700 dark:text-gray-300">JavaScript /
+                  TypeScript</span><span class="text-gray-500 dark:text-gray-400">85%</span></div>
+              <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                <div class="skill-bar bg-green-600 h-2 rounded-full" style="width:0%" data-width="85%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2"><span class="text-gray-700 dark:text-gray-300">CSS /
+                  Tailwind</span><span class="text-gray-500 dark:text-gray-400">88%</span></div>
+              <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                <div class="skill-bar bg-purple-600 h-2 rounded-full" style="width:0%" data-width="88%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-in">
+          <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">Backend</h3>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between mb-2"><span class="text-gray-700 dark:text-gray-300">Node.js /
+                  Express</span><span class="text-gray-500 dark:text-gray-400">82%</span></div>
+              <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                <div class="skill-bar bg-yellow-600 h-2 rounded-full" style="width:0%" data-width="82%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2"><span class="text-gray-700 dark:text-gray-300">MongoDB /
+                  PostgreSQL</span><span class="text-gray-500 dark:text-gray-400">78%</span></div>
+              <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                <div class="skill-bar bg-red-600 h-2 rounded-full" style="width:0%" data-width="78%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2"><span class="text-gray-700 dark:text-gray-300">AWS /
+                  Docker</span><span class="text-gray-500 dark:text-gray-400">75%</span></div>
+              <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                <div class="skill-bar bg-indigo-600 h-2 rounded-full" style="width:0%" data-width="75%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Contact -->
+  <section id="contact" class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl font-bold text-gray-800 dark:text-white mb-4">Travaillons ensemble</h2>
+        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Un email et on démarre.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12">
+        <div class="fade-in">
+          <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">Contact</h3>
+          <div class="space-y-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
+                <span class="text-blue-600 dark:text-blue-400">📧</span>
+              </div>
+              <div>
+                <p class="font-medium text-gray-800 dark:text-white">E-mail</p>
+                <p class="text-gray-600 dark:text-gray-300">
+                  <a href="mailto:florentgorski@proton.me"
+                    class="underline hover:no-underline">florentgorski@proton.me</a>
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center">
+              <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mr-4">
+                <span class="text-green-600 dark:text-green-400">🌐</span>
+              </div>
+              <div>
+                <p class="font-medium text-gray-800 dark:text-white">Site</p>
+                <p class="text-gray-600 dark:text-gray-300">
+                  <a href="https://promethemis.ch" target="_blank"
+                    class="underline hover:no-underline">promethemis.ch</a>
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center">
+              <div
+                class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mr-4">
+                <span class="text-purple-600 dark:text-purple-400">📍</span>
+              </div>
+              <div>
+                <p class="font-medium text-gray-800 dark:text-white">Localisation</p>
+                <p class="text-gray-600 dark:text-gray-300">Lausanne, Suisse</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-in">
+          <form class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg transition-colors">
+            <div class="mb-6">
+              <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2">Nom</label>
+              <input type="text"
+                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Votre nom" />
+            </div>
+            <div class="mb-6">
+              <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2">E-mail</label>
+              <input type="email"
+                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="votre@email.com" />
+            </div>
+            <div class="mb-6">
+              <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2">Message</label>
+              <textarea rows="4"
+                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Parlez-moi de votre projet..."></textarea>
+            </div>
+            <button type="submit"
+              class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">Envoyer</button>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-3 text-center">Formulaire de démonstration – pas
+              d’envoi réel</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pied de page -->
+  <footer class="bg-gray-800 text-white py-12">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <div class="mb-8">
+        <h3 class="text-2xl font-bold mb-4">Florent Gorski</h3>
+        <p class="text-gray-400 mb-6">Construire le Web, une ligne de code à la fois.</p>
+        <div class="flex justify-center space-x-6">
+          <a href="https://github.com/Florent-Gorski" target="_blank"
+            class="text-gray-400 hover:text-white transition-colors">GitHub</a>
+          <a href="mailto:florentgorski@proton.me" class="text-gray-400 hover:text-white transition-colors">Email</a>
+          <a href="https://promethemis.ch" target="_blank"
+            class="text-gray-400 hover:text-white transition-colors">ProméThémis</a>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-8">
+        <p class="text-gray-400">© 2025 Florent Gorski. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Défilement fluide déjà activé via scroll-smooth sur <html>
+
+    // Fade-in on scroll
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, observerOptions);
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Animate skill bars when skills section appears
+    const skillObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.skill-bar').forEach(bar => {
+            const width = bar.getAttribute('data-width'); setTimeout(() => { bar.style.width = width; }, 200);
+          });
+        }
+      });
+    }, observerOptions);
+    const skillsSection = document.querySelector('#skills'); if (skillsSection) skillObserver.observe(skillsSection);
+
+    // Dark mode toggle (fiable)
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    if (saved === 'dark') { html.classList.add('dark'); themeIcon.textContent = '☀️'; }
+    themeToggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      const isDark = html.classList.contains('dark');
+      themeIcon.textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+      // Mobile menu (placeholder)
+      document.getElementById('mobile-menu').addEventListener('click', () => {
+        alert("Menu mobile (placeholder).");
+      });
+
+      // Demo form
+      const form = document.querySelector('form');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          alert('Merci pour votre message ! Ceci est un formulaire de démonstration.');
+        });
+      }
+    </script>
+  </body>
+
+  </html>

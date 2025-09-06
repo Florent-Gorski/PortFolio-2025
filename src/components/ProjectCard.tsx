@@ -1,43 +1,40 @@
-import { ExternalLink, Rocket, Wrench } from 'lucide-react'
-import Badge from '@/components/badge'
-import type { Project } from '@/data/projects'
+import React from "react";
+import type { Project } from "../data/projects";
 
-export default function ProjectCard({ p }: { p: Project })
+const ProjectCard: React.FC<{ project: Project }> = ({ project }) =>
 {
-  const isOnline = p.status === 'online'
-  const isSoon = p.status === 'soon'
-
   return (
-    <article className="card p-5 h-full flex flex-col flo-card" data-status={p.status}>
-      <div className="flex items-center justify-between gap-4">
-        <h3 className="text-xl font-semibold tracking-tight">{p.name}</h3>
-
-        {isOnline && (
-          <Badge variant="online">
-            <Rocket className="size-3 mr-1" />
-            En ligne
-          </Badge>
-        )}
-        {isSoon && (
-          <Badge variant="soon">
-            <Wrench className="size-3 mr-1" />
-            Bientôt
-          </Badge>
-        )}
+    <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg card-hover fade-in transition-colors">
+      <div className="h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+        <span className="text-6xl">{project.emoji}</span>
       </div>
+      <div className="p-6">
+        <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">{project.title}</h3>
+        <p className="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
 
-      <p className="mt-2 text-sm text-neutral-300">{p.desc}</p>
-      <p className="mt-3 text-xs text-neutral-400">Tech : {p.tech}</p>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.tags.map((t) => (
+            <span key={t} className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm dark:bg-blue-900/30 dark:text-blue-300">
+              {t}
+            </span>
+          ))}
+        </div>
 
-      <div className="mt-4 pt-3 border-t border-white/10 flex-1">
-        {p.link ? (
-          <a href={p.link} target="_blank" rel="noreferrer noopener" className="btn">
-            <ExternalLink className="size-4" /> Voir le projet
-          </a>
-        ) : (
-          <span className="text-sm text-neutral-500">Lien à venir</span>
-        )}
+        <div className="flex space-x-4">
+          {project.demo && (
+            <a href={project.demo} target="_blank" rel="noopener" className="text-blue-600 hover:text-blue-800 font-medium">
+              Démo
+            </a>
+          )}
+          {project.github && (
+            <a href={project.github} target="_blank" rel="noopener" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 font-medium">
+              GitHub
+            </a>
+          )}
+        </div>
       </div>
-    </article>
-  )
-}
+    </div>
+  );
+};
+
+export default ProjectCard;

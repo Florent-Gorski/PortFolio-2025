@@ -18,16 +18,16 @@
     text-size-adjust: 100%;
   }
 
-body {
-  background-color: #0f0f10;
-  /* fond sombre par défaut */
-  color: #F3F4F6;
-  /* texte clair */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: "rlig" 1, "calt" 1;
-  font-family: Inter, system-ui, Segoe UI, Roboto, Arial, sans-serif;
-}
+  body {
+    background-color: #0f0f10;
+    /* fond sombre par défaut */
+    color: #F3F4F6;
+    /* texte clair */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: Inter, system-ui, Segoe UI, Roboto, Arial, sans-serif;
+  }
 
   h1,
   h2,
@@ -321,6 +321,7 @@ body {
   border-color: rgba(224, 0, 255, .35);
   box-shadow: 0 0 18px rgba(224, 0, 255, .18);
 }
+
 /* === Songlish (cards + equalizer) === */
 .flo-grid--songlish {
   grid-template-columns: 1fr
@@ -496,6 +497,7 @@ body {
     justify-content: space-between
   }
 }
+
 /* === Vertical side label === */
 .flo-vertical-label {
   position: fixed;
