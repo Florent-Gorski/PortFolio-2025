@@ -5,76 +5,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Florent Gorski – Développeur Web</title>
-
-  <!-- Tailwind (CDN immédiat) -->
-  <script>window.tailwind = { config: { darkMode: 'class' } };</script>
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-
-    .gradient-bg {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-
-    .card-hover {
-      transition: all 0.3s ease;
-    }
-
-    .card-hover:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, .1);
-    }
-
-    .skill-bar {
-      transition: width 2s ease-in-out;
-    }
-
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all .6s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
+  <!-- ❌ AUCUN CDN Tailwind ici ; tout vient de src/index.css -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet" />
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900 transition-colors">
-  <!-- 🧩 Monté par React -->
+<body>
   <div id="root"></div>
 
-  <!-- Scripts utilitaires (fade-in, theme, etc.) -->
-  <script>
-    // Fade-in on scroll
-    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-    }, observerOptions);
-    // Les éléments .fade-in seront ajoutés par React ; l'observer sera réappliqué côté composants si besoin.
-
-    // Dark mode (lecture initiale)
-    const html = document.documentElement;
-    const saved = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    if (saved === 'dark') html.classList.add('dark');
-  </script>
-
-  <!-- Entrée Vite/React -->
-  <script type="module" src="/src/main.tsx"></script>
-
-  <!-- Phantom form Netlify (doit rester hors <script>) -->
+  <!-- Phantom form Netlify (détection au build) -->
   <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
     <input type="text" name="name" />
     <input type="email" name="email" />
     <textarea name="message"></textarea>
   </form>
+
+  <!-- Entrée Vite -->
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 
 </html>
