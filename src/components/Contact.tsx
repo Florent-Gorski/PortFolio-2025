@@ -1,11 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+
+const encode = (data: Record<string, string>) =>
+  Object.keys(data)
+    .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(data[k]))
+    .join("&");
 
 const Contact: React.FC = () =>
 {
-  const onSubmit = (e: React.FormEvent) =>
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">("idle");
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) =>
   {
     e.preventDefault();
-    alert("Merci pour votre message ! Ceci est un formulaire de démonstration.");
+    setStatus("sending");
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const payload: Record<string, string> = {
+      "form-name": "contact", // IMPORTANT: doit matcher le name du formulaire
+    };
+    formData.forEach((v, k) => (payload[k] = String(v)));
+
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode(payload),
+      });
+      setStatus("ok");
+      form.reset();
+    } catch (err) {
+      setStatus("err");
+    }
   };
 
   return (
@@ -17,61 +43,70 @@ const Contact: React.FC = () =>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
-          <div className="fade-in">
-            <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-6">Contact</h3>
-            <div className="space-y-4">
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
-                  <span className="text-blue-600 dark:text-blue-400">📧</span>
-                </div>
-                <div>
-                  <p className="font-medium text-gray-800 dark:text-white">E-mail</p>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    <a href="mailto:florentgorski@proton.me" className="underline hover:no-underline">florentgorski@proton.me</a>
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mr-4">
-                  <span className="text-green-600 dark:text-green-400">🌐</span>
-                </div>
-                <div>
-                  <p className="font-medium text-gray-800 dark:text-white">Site</p>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    <a href="https://promethemis.ch" target="_blank" rel="noopener" className="underline hover:no-underline">promethemis.ch</a>
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mr-4">
-                  <span className="text-purple-600 dark:text-purple-400">📍</span>
-                </div>
-                <div>
-                  <p className="font-medium text-gray-800 dark:text-white">Localisation</p>
-                  <p className="text-gray-600 dark:text-gray-300">Lausanne, Suisse</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Colonne infos (la tienne à gauche) ... */}
 
           <div className="fade-in">
-            <form onSubmit={onSubmit} className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg transition-colors">
+            <form
+              name="contact"           // <- nom du formulaire (doit matcher "form-name")
+              method="POST"
+              data-netlify="true"      // <- active Netlify Forms
+              data-netlify-honeypot="bot-field"
+              onSubmit={onSubmit}
+              className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg transition-colors"
+            >
+              {/* Champ caché requis par Netlify */}
+              <input type="hidden" name="form-name" value="contact" />
+              {/* Honeypot anti-bot (caché) */}
+              <p className="hidden">
+                <label>Ne pas remplir: <input name="bot-field" /></label>
+              </p>
+
               <div className="mb-6">
                 <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Nom</label>
-                <input type="text" className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Votre nom" />
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Votre nom"
+                />
               </div>
+
               <div className="mb-6">
                 <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">E-mail</label>
-                <input type="email" className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="votre@email.com" />
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="votre@email.com"
+                />
               </div>
+
               <div className="mb-6">
                 <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Message</label>
-                <textarea rows={4} className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Parlez-moi de votre projet..."></textarea>
+                <textarea
+                  name="message"
+                  rows={4}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Parlez-moi de votre projet..."
+                />
               </div>
-              <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">Envoyer</button>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-3 text-center">Formulaire de démo – pas d’envoi réel</p>
+
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-60"
+              >
+                {status === "sending" ? "Envoi…" : "Envoyer"}
+              </button>
+
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-3 text-center">
+                {status === "idle" && "Formulaire de démonstration – pas d’envoi réel"}
+                {status === "ok" && "Merci ! Votre message a bien été envoyé ✅"}
+                {status === "err" && "Oups. Une erreur est survenue. Réessayez."}
+              </p>
             </form>
           </div>
         </div>
