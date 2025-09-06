@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Hero from "./components/Hero";
 import About from "./components/About";
-import Projects from "./components/Projects"; // ⬅️ nouveau
+import Projects from "./components/Projects"; // ✅ source officielle
 import Skills from "./components/skills";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -74,7 +74,7 @@ const App: React.FC = () =>
       <main className="pt-20">
         <Hero />
         <About />
-        <Projects /> {/* ⬅️ remplace <Projects /> */}
+        <Projects /> {/* ✅ la bonne section */}
         <Skills />
         <Contact />
       </main>
