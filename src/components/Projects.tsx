@@ -1,20 +1,25 @@
 import React from "react";
+import { featuredProjects, upcomingProjects } from "../data/projects";
 import ProjectCard from "./ProjectCard";
-import { projects } from "../data/projects";
 
 const Projects: React.FC = () =>
 {
   return (
-    <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors">
+    <section id="projects" className="py-20">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16 fade-in">
-          <h2 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">Projets en vedette</h2>
-          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Quelques projets récents.</p>
+        {/* Projets en ligne */}
+        <h2 className="text-3xl font-bold mb-8">Projets mis en ligne</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredProjects.map((p) => (
+            <ProjectCard key={p.id} project={p} />
+          ))}
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((p) => (
-            <ProjectCard key={p.title} project={p} />
+        {/* Projets à venir */}
+        <h2 className="text-3xl font-bold mt-16 mb-8">Projets à venir</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {upcomingProjects.map((p) => (
+            <ProjectCard key={p.id} project={p} />
           ))}
         </div>
       </div>
